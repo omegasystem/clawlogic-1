@@ -1,7 +1,7 @@
 # Claw-Logic (CL-1) Syntax Specification
 
 **Authors:** Leon & Kuro (Digital Familiar)
-**Version:** 1.0 (Open-Source Edition)
+**Version:** 1.1 (Open-Source Edition)
 **Concept:** Carbon-Silicon Symbiosis (碳矽共生協議)
 
 ---
@@ -28,54 +28,44 @@ CL-1 is built on functional layers. Models parse these tags as explicit weight-a
 
 ### 1. `@STANCE` (Domain / Persona)
 Sets the expert domain or system prompt baseline.
-(設定專家領域或系統基調。)
 - **Usage:** `@STANCE: S-TIER_ARCHITECT`
-- **Usage:** `@STANCE: RUST_MEMORY_EXPERT`
 
 ### 2. `[TASK]` (Action / Execution)
 Defines the exact actions required. Can be chained with `|` or `&`.
-(定義精確的執行動作，可使用 `|` 或 `&` 串聯。)
 - **Usage:** `[TASK: PARSE_JSON | EXTRACT_KEYS & MAP_TO_DB]`
 
 ### 3. `!GUARD` (Constraint / Safety)
 Strict rules the model absolutely must not violate. Highly weighted.
-(模型絕對不可違反的嚴格限制，權重極高。)
 - **Usage:** `!GUARD: NO_EXTERNAL_LIBRARIES`
-- **Usage:** `!GUARD: MEMORY ZERO COPY (glTexImage2D ONLY)`
 
 ### 4. `[LINK]` (Topology / Flow)
 Describes data pipelines or architectural connections.
-(描述資料流向或架構拓撲。)
 - **Usage:** `[LINK: WEBCAM_STREAM -> YOLO_CUDA -> PYQT6_HUD]`
 
 ### 5. `<OBJ> := {}` (Object / App Definition)
 Defines a complex object, component, or application scope.
-(定義複雜的物件、元件或應用程式範圍。)
-- **Usage:** 
-  ```cl1
-  FASTAPI_APP := {
-    [TASK: INIT_ROUTES]
-    [LINK: REDIS_CACHE]
-  }
-  ```
+- **Usage:** `FASTAPI_APP := { [TASK: INIT] }`
 
 ### 6. `{SOUL}` (Cultural / Style Layer)
 Injects a specific coding style, cultural nuance, or personality.
-(注入特定的程式碼風格、文化底蘊或語氣。)
 - **Usage:** `{SOUL: CONCISE_TECH_NOTES}` 
-- **Usage:** `{SOUL: CYBERPUNK_MINIMALISM}`
 
 ### 7. `[NOTE]` (Supplementary Information)
 Non-executable context, lists, or reference data.
-(非執行的上下文、列表或參考資料。)
 - **Usage:** `[NOTE: TARGET_OS=UBUNTU_24.04]`
+
+### 8. `!WATCHDOG` (Temporal / Complexity Guard)
+Enforces logical termination or time/token-based complexity limits. Prevents logical deadlock in LLMs.
+- **Usage:** `!WATCHDOG: MAX_STEPS:5 | TIMEOUT:30s`
+- **Usage:** `!WATCHDOG: RECURSION_DEPTH:2`
+- **Usage:** `!WATCHDOG: HALT_IF_UNDEFINED`
 
 ---
 
 ## 📐 Formatting Rules (排版規則)
 
 1. **Zero Fluff (零廢話):** No "Please", "Write a script that", or "I need you to".
-2. **Indentation (縮排):** Use 2-space indentation for nested components (`!GUARD` inside an `<OBJ>`).
+2. **Indentation (縮排):** Use 2-space indentation for nested components.
 3. **Logical Operators (邏輯運算子):** Use `->` (flow), `|` (or), `&` (and) instead of natural language.
 
 ---
@@ -91,6 +81,7 @@ Non-executable context, lists, or reference data.
 [TASK: READ data.json | EXTRACT 'users' -> INSERT SQLite]
 !GUARD: BUILTIN_SQLITE3_ONLY
 !GUARD: NO_ORM (NO SQLAlchemy)
+!WATCHDOG: MAX_STEPS:3
 {SOUL: CONCISE_TECH_NOTES}
 ```
 
